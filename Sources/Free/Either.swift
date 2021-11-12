@@ -50,6 +50,6 @@ S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning, S4
     case second(S2)
     case third(S3)
     case fourth(S4)
-    case fifrth(S5)
+    case fifth(S5)
     
 }

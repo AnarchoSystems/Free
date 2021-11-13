@@ -2,14 +2,12 @@
 
 import Free
 
-{% for type in types|internal %}{% if type.implements.Program %}
+{% for type in types.based.Program|internal %}
 
 extension {{type.name}} : Interpretation {}
 
-{% for proto in types.protocols|internal %}{% if type.Body.implements.{{proto.name}}%}
-
+{% for proto in types.protocols|internal %}{% if type.Body.implements.{{proto.name}} %}
 extension {{type.name}} : {{proto.name}} {
-
 
 {% for variable in proto.variables|instance %}
     @usableFromInline
@@ -27,8 +25,4 @@ extension {{type.name}} : {{proto.name}} {
 
 }
 
-{%endif%}
-    
-{%endif%}
-
-{% endfor %}
+{% endif %}{% endfor %}{% endfor %}

@@ -110,9 +110,9 @@ extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}
         
         switch self {
         case .either(let s1):
-            return s1.{{variable.name}}.map(Either.either)
+            return s1.{{variable.name}}.map(Meaning.either)
         case .or(let s2):
-            return s2.{{variable.name}}.map(Either.or)
+            return s2.{{variable.name}}.map(Meaning.or)
         }
         
     }
@@ -124,9 +124,9 @@ extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}
         
         switch self {
         case .either(let s1):
-            return s1.{{method.name}}.map(Either.either)
+            return s1.{{method.name}}.map(Meaning.either)
         case .or(let s2):
-            return s2.{{method.name}}.map(Either.or)
+            return s2.{{method.name}}.map(Meaning.or)
         }
     }
     {%endfor%}
@@ -142,11 +142,11 @@ extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}
         
         switch self {
         case .first(let s1):
-            return s1.{{variable.name}}.map(Either.first)
+            return s1.{{variable.name}}.map(Meaning.first)
         case .second(let s2):
-            return s2.{{variable.name}}.map(Either.second)
+            return s2.{{variable.name}}.map(Meaning.second)
         case .third(let s3):
-            return s3.{{variable.name}}.map(Either.third)
+            return s3.{{variable.name}}.map(Meaning.third)
         }
         
     }
@@ -158,11 +158,11 @@ extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}
         
         switch self {
         case .first(let s1):
-            return s1.{{method.name}}.map(Either.first)
+            return s1.{{method.name}}.map(Meaning.first)
         case .second(let s2):
-            return s2.{{method.name}}.map(Either.second)
+            return s2.{{method.name}}.map(Meaning.second)
         case .third(let s3):
-            return s3.{{method.name}}.map(Either.third)
+            return s3.{{method.name}}.map(Meaning.third)
         }
     }
     {%endfor%}
@@ -179,13 +179,13 @@ S3 : {{proto.name}}, S4 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{variable.name}}.map(Either.first)
+            return s1.{{variable.name}}.map(Meaning.first)
         case .second(let s2):
-            return s2.{{variable.name}}.map(Either.second)
+            return s2.{{variable.name}}.map(Meaning.second)
         case .third(let s3):
-            return s3.{{variable.name}}.map(Either.third)
+            return s3.{{variable.name}}.map(Meaning.third)
         case .fourth(let s4):
-            return s4.{{variable.name}}.map(Either.fourth)
+            return s4.{{variable.name}}.map(Meaning.fourth)
         }
         
     }
@@ -197,13 +197,13 @@ S3 : {{proto.name}}, S4 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{method.name}}.map(Either.first)
+            return s1.{{method.name}}.map(Meaning.first)
         case .second(let s2):
-            return s2.{{method.name}}.map(Either.second)
+            return s2.{{method.name}}.map(Meaning.second)
         case .third(let s3):
-            return s3.{{method.name}}.map(Either.third)
+            return s3.{{method.name}}.map(Meaning.third)
         case .fourth(let s4):
-            return s4.{{method.name}}.map(Either.fourth)
+            return s4.{{method.name}}.map(Meaning.fourth)
         }
     }
     {%endfor%}
@@ -220,15 +220,15 @@ S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{variable.name}}.map(Either.first)
+            return s1.{{variable.name}}.map(Meaning.first)
         case .second(let s2):
-            return s2.{{variable.name}}.map(Either.second)
+            return s2.{{variable.name}}.map(Meaning.second)
         case .third(let s3):
-            return s3.{{variable.name}}.map(Either.third)
+            return s3.{{variable.name}}.map(Meaning.third)
         case .fourth(let s4):
-            return s4.{{variable.name}}.map(Either.fourth)
+            return s4.{{variable.name}}.map(Meaning.fourth)
         case .fifth(let s5):
-            return s5.{{variable.name}}.map(Either.fifth)
+            return s5.{{variable.name}}.map(Meaning.fifth)
         }
         
     }
@@ -240,15 +240,15 @@ S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{method.name}}.map(Either.first)
+            return s1.{{method.name}}.map(Meaning.first)
         case .second(let s2):
-            return s2.{{method.name}}.map(Either.second)
+            return s2.{{method.name}}.map(Meaning.second)
         case .third(let s3):
-            return s3.{{method.name}}.map(Either.third)
+            return s3.{{method.name}}.map(Meaning.third)
         case .fourth(let s4):
-            return s4.{{method.name}}.map(Either.fourth)
+            return s4.{{method.name}}.map(Meaning.fourth)
         case .fifth(let s5):
-            return s5.{{method.name}}.map(Either.fifth)
+            return s5.{{method.name}}.map(Meaning.fifth)
         }
     }
     {%endfor%}

@@ -7,7 +7,7 @@
 
 
 
-public enum Recursive<BaseMeaning, Recursion : Symbol> : Symbol {
+public enum Recursive<Recursion : Symbol> : Symbol {
     
     public typealias Meaning = Recursion.Meaning
     

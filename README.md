@@ -67,12 +67,14 @@ func test() {
 
 ## Installation
 
-- Step 1: Add this package as a dependency
-- Step 2: Install Sourcery
-- Step 3: Read a tutorial how to run sourcery. The most important options are
-  - manually
-  - as a deamon
-  - as a run script phase before compile sources (this is my preferred option as you only have to set this up once)
-  - with commandline args
-  - with a yaml file
-- Step 4: Copy+paste the Templates folder in this repo to a position of your liking (you can fine tune the templates in there to your needs) and run sourcery
+- Step 1: Add this package as a dependency in XCode: in the Files menu, choose "Add Packages...", paste the link to this repo into the search bar and confirm.
+- Step 2: Install Sourcery. With homebrew, all you need to do is to run ```brew install sourcery``` in the terminal.
+- Step 3: Add a run script phase to your build phases right before compile sources. Paste the following script:
+
+```bash
+/opt/homebrew/bin/sourcery --templates ${BUILD_DIR%Build/*}SourcePackages/checkouts/Free/Templates --sources ${SRCROOT}/${PRODUCT_NAME} --output ${SRCROOT}/Generated
+```
+
+Attention: depending on your system, hombrew might have put sourcery elsewhere, so you may need to adjust this a little bit.
+- Step 4: Uncheck the "Based on dependency analysis" box in your run script phase.
+- Step 5: Compile for the first time. A Folder ```Generated``` should have appeared in the folder where your ```.xcodeproj``` project is located. Add this folder and its contents to the project.

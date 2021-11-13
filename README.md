@@ -164,6 +164,8 @@ extension Recursive : {{proto.name}} where Recursion : {{proto.name}}  {
         switch self {
         case .pure(let value):
             return .pure(value)
+        case .semiPure(let value):
+            return value.{{variable.name}}
         case .recursive(let rec, let transform):
             return rec.{{variable.name}}
             .flatMap{transform($0).{{variable.name}}}
@@ -179,6 +181,8 @@ extension Recursive : {{proto.name}} where Recursion : {{proto.name}}  {
         switch self {
         case .pure(let value):
             return .pure(value)
+        case .semiPure(let value):
+            return value.{{method.name}}
         case .recursive(let rec, let transform):
             return rec.{{method.name}}
             .flatMap{transform($0).{{method.name}}}
@@ -414,6 +418,8 @@ extension Recursive : {{proto.name}} where Recursion : {{proto.name}}  {
         switch self {
         case .pure(let value):
             return .pure(value)
+        case .semiPure(let value):
+            return value.{{variable.name}}
         case .recursive(let rec, let transform):
             return rec.{{variable.name}}
             .flatMap{transform($0).{{variable.name}}}
@@ -429,6 +435,8 @@ extension Recursive : {{proto.name}} where Recursion : {{proto.name}}  {
         switch self {
         case .pure(let value):
             return .pure(value)
+        case .semiPure(let value):
+            return value.{{method.name}}
         case .recursive(let rec, let transform):
             return rec.{{method.name}}
             .flatMap{transform($0).{{method.name}}}

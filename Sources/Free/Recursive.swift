@@ -12,6 +12,7 @@ public enum Recursive<BaseMeaning, Recursion : Symbol> : Symbol {
     public typealias Meaning = Recursion.Meaning
     
     case pure(Recursion.Meaning)
+    case semiPure(Recursion)
     indirect case recursive(Self, (Recursion.Meaning) -> Self)
     
     public static func recursive<T>(_ recursive: Self, _ transform: @escaping (T) -> T) -> Self where Recursion == Pure<T> {

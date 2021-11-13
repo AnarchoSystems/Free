@@ -67,12 +67,12 @@ func test() {
 
 ## Installation
 
-Step 1: Add this package as a dependency
-Step 2: Install Sourcery
-Step 3: Read a tutorial how to run sourcery. The most important options are
+- Step 1: Add this package as a dependency
+- Step 2: Install Sourcery
+- Step 3: Read a tutorial how to run sourcery. The most important options are
   - manually
   - as a deamon
   - as a run script phase before compile sources (this is my preferred option as you only have to set this up once)
   - with commandline args
   - with a yaml file
-Step 4: Copy+paste the Templates folder in this repo to a position of your liking (you can fine tune the templates in there to your needs) and run sourcery
+- Step 4: Copy+paste the Templates folder in this repo to a position of your liking (you can fine tune the templates in there to your needs) and run sourcery

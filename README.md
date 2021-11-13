@@ -35,7 +35,9 @@ protocol AsyncInterpretation : Interpretation {
 
 extension PrintLine : AsyncInterpretation {
 
-   func runAsync() {}
+   func runAsync() {
+      print(message)
+   }
 
 }
 

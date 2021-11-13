@@ -1,0 +1,34 @@
+
+
+import Free
+
+{% for type in types|public %}{% if type.implements.Program %}
+
+extension {{type.name}} : Interpretation {}
+
+{% for proto in types.protocols|public %}{% if type.Body.implements.{{proto.name}}%}
+
+extension {{type.name}} : {{proto.name}} {
+
+
+{% for variable in proto.variables|instance %}
+    @inlinable
+    public var {{variable.name}} : {{variable.typeName}} {
+        body.{{variable.name}}
+    }
+{%endfor%}
+{% for method in proto.methods|instance %}
+        
+    @inlinable
+    public func {{method.name}} -> {{method.returnTypeName}} {
+        body.{{method.name}}
+    }
+{%endfor%}
+
+}
+
+{%endif%}
+    
+{%endif%}
+
+{% endfor %}

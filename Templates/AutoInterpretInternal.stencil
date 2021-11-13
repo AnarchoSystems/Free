@@ -1,0 +1,258 @@
+
+
+import Free
+
+{% for proto in types.protocols|internal %}{% if proto.based.Interpretation %}
+
+extension Pure : {{proto.name}} {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        .pure(meaning)
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        .pure(meaning)
+    }
+    {%endfor%}
+    
+}
+
+
+extension Map : {{proto.name}} where Base : {{proto.name}} {
+    {% for variable in proto.variables|instance %}
+    
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        base.{{variable.name}}.map(transform)
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        base.{{method.name}}.map(transform)
+    }
+    {%endfor%}
+    
+}
+
+
+extension FlatMap : {{proto.name}} where Base : {{proto.name}}, Next : {{proto.name}} {
+    {% for variable in proto.variables|instance %}
+    
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        base.{{variable.name}}
+        .flatMap{transform($0).{{variable.name}}}
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        base.{{method.name}}
+        .flatMap{transform($0).{{method.name}}}
+    }
+    {%endfor%}
+    
+}
+
+
+extension Recursive : {{proto.name}} where Recursion : {{proto.name}}  {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        
+        switch self {
+        case .pure(let value):
+            return .pure(value)
+        case .semiPure(let value):
+            return value.{{variable.name}}
+        case .recursive(let rec, let transform):
+            return rec.{{variable.name}}
+            .flatMap{transform($0).{{variable.name}}}
+        }
+        
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        
+        switch self {
+        case .pure(let value):
+            return .pure(value)
+        case .semiPure(let value):
+            return value.{{method.name}}
+        case .recursive(let rec, let transform):
+            return rec.{{method.name}}
+            .flatMap{transform($0).{{method.name}}}
+        }
+        
+    }
+    {%endfor%}
+    
+}
+
+
+extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}} {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        
+        switch self {
+        case .either(let s1):
+            return s1.{{variable.name}}.map(Either.either)
+        case .or(let s2):
+            return s2.{{variable.name}}.map(Either.or)
+        }
+        
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        
+        switch self {
+        case .either(let s1):
+            return s1.{{method.name}}.map(Either.either)
+        case .or(let s2):
+            return s2.{{method.name}}.map(Either.or)
+        }
+    }
+    {%endfor%}
+    
+}
+
+
+extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}, S3 : {{proto.name}} {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        
+        switch self {
+        case .first(let s1):
+            return s1.{{variable.name}}.map(Either.first)
+        case .second(let s2):
+            return s2.{{variable.name}}.map(Either.second)
+        case .third(let s3):
+            return s3.{{variable.name}}.map(Either.third)
+        }
+        
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        
+        switch self {
+        case .first(let s1):
+            return s1.{{method.name}}.map(Either.first)
+        case .second(let s2):
+            return s2.{{method.name}}.map(Either.second)
+        case .third(let s3):
+            return s3.{{method.name}}.map(Either.third)
+        }
+    }
+    {%endfor%}
+    
+}
+
+
+extension Either4 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}},
+S3 : {{proto.name}}, S4 : {{proto.name}} {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        
+        switch self {
+        case .first(let s1):
+            return s1.{{variable.name}}.map(Either.first)
+        case .second(let s2):
+            return s2.{{variable.name}}.map(Either.second)
+        case .third(let s3):
+            return s3.{{variable.name}}.map(Either.third)
+        case .fourth(let s4):
+            return s4.{{variable.name}}.map(Either.fourth)
+        }
+        
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        
+        switch self {
+        case .first(let s1):
+            return s1.{{method.name}}.map(Either.first)
+        case .second(let s2):
+            return s2.{{method.name}}.map(Either.second)
+        case .third(let s3):
+            return s3.{{method.name}}.map(Either.third)
+        case .fourth(let s4):
+            return s4.{{method.name}}.map(Either.fourth)
+        }
+    }
+    {%endfor%}
+    
+}
+
+
+extension Either5 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}},
+S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}} {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        
+        switch self {
+        case .first(let s1):
+            return s1.{{variable.name}}.map(Either.first)
+        case .second(let s2):
+            return s2.{{variable.name}}.map(Either.second)
+        case .third(let s3):
+            return s3.{{variable.name}}.map(Either.third)
+        case .fourth(let s4):
+            return s4.{{variable.name}}.map(Either.fourth)
+        case .fifth(let s5):
+            return s5.{{variable.name}}.map(Either.fifth)
+        }
+        
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        
+        switch self {
+        case .first(let s1):
+            return s1.{{method.name}}.map(Either.first)
+        case .second(let s2):
+            return s2.{{method.name}}.map(Either.second)
+        case .third(let s3):
+            return s3.{{method.name}}.map(Either.third)
+        case .fourth(let s4):
+            return s4.{{method.name}}.map(Either.fourth)
+        case .fifth(let s5):
+            return s5.{{method.name}}.map(Either.fifth)
+        }
+    }
+    {%endfor%}
+    
+}
+
+{% endif %}{% endfor %}

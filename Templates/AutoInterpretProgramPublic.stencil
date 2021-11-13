@@ -2,11 +2,15 @@
 
 import Free
 
-{% for type in types.based.Program|public %}
+{% for type in types.based.Program | public %}
 
 extension {{type.name}} : Interpretation {}
 
-{% for proto in types.protocols|public %}{% if type.Body.based.{{proto.name}} %}
+{% for v in type.variables %}{%if v.name == "body"%}
+{%for proto in types.protocols|public%}
+{%if proto.based.Interpretation%}
+{%for prt in v.type.basedTypes%}
+{%if prt == proto.name %}
 extension {{type.name}} : {{proto.name}} {
 
 {% for variable in proto.variables|instance %}
@@ -25,4 +29,6 @@ extension {{type.name}} : {{proto.name}} {
 
 }
 
-{% endif %}{% endfor %}{% endfor %}
+{%endif%}{%endfor%}{%endif%}{%endfor%}
+{%endif%}
+{% endfor %}{% endfor %}

@@ -46,7 +46,12 @@ extension GetLine : AsyncInterpretation {
 
   func runAsync() async -> String {
      
-     await Task.sleep(nanoseconds: UInt64(1e9 * 60 * 60 * 24 * 365.25 * 7.5 * 1e9))
+     // avoid overflow of UInt64 by looping...
+     for _ in (0..<Int(1e9)) {
+          await Task.sleep(UInt64(1e9 * 60 * 60 * 24 * 365.25 * 7.5))
+          print("Pon Farr!")
+     }
+     
      return "42"
      
   }

@@ -27,7 +27,7 @@ let example = PrintLine(message: "What is the answer to life, the universe and e
                             
 // now interpret
 
-protocol AsyncInterpretation : Interpretation {
+protocol AsyncInterpretation {
 
    func runAsync() async -> Meaning
 
@@ -69,6 +69,21 @@ func test() {
 
 
 ```
+## Disclaimer
+
+The code presented above is just the gist of what is going on here. At the moment, the code generator will make the Map and FlatMap types conform only to protocols that map to actual monads, e.g.
+
+```swift
+
+protocol AsyncInterpretable {
+
+  func interpretAsync() -> Async<T>
+
+}
+
+```
+
+where Async<T> actually provides appropriately typed methods ```pure```, ```map``` and ```flatMap```. The necessary derivation rules for ```runAsync``` are easy enough to write by hand though and could maybe be auto-generated in some future version of this repo.
 
 ## Installation
 

@@ -7,6 +7,35 @@
 
 
 
+public enum Discriminative<Good, Bad> {
+    
+    case good(Good)
+    case bad(Bad)
+    
+}
+
+
+public extension Discriminative where Good == Bad {
+    
+    func get() -> Good {
+        switch self {
+        case .good(let good):
+            return good
+        case .bad(let bad):
+            return bad
+        }
+    }
+    
+}
+
+
+extension Discriminative : Symbol where Good : Symbol, Bad : Symbol {
+    
+    public typealias Meaning = Discriminative<Good.Meaning, Bad.Meaning>
+    
+}
+
+
 public enum Either<S1, S2> {
     
     case either(S1)
@@ -29,9 +58,9 @@ public extension Either where S1 == S2 {
 }
 
 
-extension Either : Symbol where S1 : Symbol, S2 : Symbol {
+extension Either : Symbol where S1 : Symbol, S2 : Symbol, S1.Meaning == S2.Meaning {
     
-    public typealias Meaning = Either<S1.Meaning, S2.Meaning>
+    public typealias Meaning = S1.Meaning
     
 }
 
@@ -61,9 +90,10 @@ public extension Either3 where S1 == S2, S2 == S3 {
 }
 
 
-extension Either3 : Symbol where S1 : Symbol, S2 : Symbol, S3 : Symbol {
+extension Either3 : Symbol where S1 : Symbol, S2 : Symbol, S3 : Symbol,
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning {
     
-    public typealias Meaning = Either3<S1.Meaning, S2.Meaning, S3.Meaning>
+    public typealias Meaning = S1.Meaning
     
 }
 
@@ -96,9 +126,10 @@ public extension Either4 where S1 == S2, S2 == S3, S3 == S4 {
 }
 
 
-extension Either4 : Symbol where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol {
+extension Either4 : Symbol where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol,
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning {
     
-    public typealias Meaning = Either4<S1.Meaning, S2.Meaning, S3.Meaning, S4.Meaning>
+    public typealias Meaning = S1.Meaning
     
 }
 
@@ -134,8 +165,9 @@ public extension Either5 where S1 == S2, S2 == S3, S3 == S4, S4 == S5 {
 }
 
 
-extension Either5 : Symbol where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol, S5 : Symbol {
+extension Either5 : Symbol where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol, S5 : Symbol,
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning, S4.Meaning == S5.Meaning {
     
-    public typealias Meaning = Either5<S1.Meaning, S2.Meaning, S3.Meaning, S4.Meaning, S5.Meaning>
+    public typealias Meaning = S1.Meaning
     
 }

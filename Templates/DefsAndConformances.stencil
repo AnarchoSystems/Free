@@ -17,10 +17,19 @@ extension FlatMap : Interpretation {}
 extension Recursive : Interpretation {}
 
 
-extension Either : Interpretation where S1 : Symbol, S2 : Symbol {}
-extension Either3 : Interpretation where S1 : Symbol, S2 : Symbol, S3 : Symbol {}
-extension Either4 : Interpretation where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol {}
-extension Either5 : Interpretation where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol, S5 : Symbol {}
+extension Discriminative : Interpretation where Good : Symbol, Bad : Symbol {}
+
+extension Either : Interpretation where S1 : Symbol, S2 : Symbol,
+                                 S1.Meaning == S2.Meaning {}
+                                 
+extension Either3 : Interpretation where S1 : Symbol, S2 : Symbol, S3 : Symbol,
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning {}
+                                 
+extension Either4 : Interpretation where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol,
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning {}
+                            
+extension Either5 : Interpretation where S1 : Symbol, S2 : Symbol, S3 : Symbol, S4 : Symbol, S5 : Symbol,
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning, S4.Meaning == S5.Meaning {}
 
 
 public protocol Program : Symbol where Meaning == Body.Meaning {

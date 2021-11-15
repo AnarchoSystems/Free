@@ -102,17 +102,17 @@ extension Recursive : {{proto.name}} where Recursion : {{proto.name}}  {
 }
 
 
-extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}} {
+extension Discriminative : {{proto.name}} where Good : {{proto.name}}, Bad : {{proto.name}} {
     
     {% for variable in proto.variables|instance %}
     @usableFromInline
     var {{variable.name}} : {{variable.typeName}} {
         
         switch self {
-        case .either(let s1):
-            return s1.{{variable.name}}.map(Meaning.either)
-        case .or(let s2):
-            return s2.{{variable.name}}.map(Meaning.or)
+        case .good(let s1):
+            return s1.{{variable.name}}.map(Meaning.good)
+        case .bad(let s2):
+            return s2.{{variable.name}}.map(Meaning.bad)
         }
         
     }
@@ -123,10 +123,10 @@ extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}
     func {{method.name}} -> {{method.returnTypeName}} {
         
         switch self {
-        case .either(let s1):
-            return s1.{{method.name}}.map(Meaning.either)
-        case .or(let s2):
-            return s2.{{method.name}}.map(Meaning.or)
+        case .good(let s1):
+            return s1.{{method.name}}.map(Meaning.good)
+        case .bad(let s2):
+            return s2.{{method.name}}.map(Meaning.bad)
         }
     }
     {%endfor%}
@@ -134,7 +134,41 @@ extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}
 }
 
 
-extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}, S3 : {{proto.name}} {
+extension Either : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}},
+                                 S1.Meaning == S2.Meaning {
+    
+    {% for variable in proto.variables|instance %}
+    @usableFromInline
+    var {{variable.name}} : {{variable.typeName}} {
+        
+        switch self {
+        case .either(let s1):
+            return s1.{{variable.name}}
+        case .or(let s2):
+            return s2.{{variable.name}}
+        }
+        
+    }
+    {%endfor%}
+    {% for method in proto.methods|instance %}
+    
+    @usableFromInline
+    func {{method.name}} -> {{method.returnTypeName}} {
+        
+        switch self {
+        case .either(let s1):
+            return s1.{{method.name}}
+        case .or(let s2):
+            return s2.{{method.name}}
+        }
+    }
+    {%endfor%}
+    
+}
+
+
+extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}}, S3 : {{proto.name}},
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning {
     
     {% for variable in proto.variables|instance %}
     @usableFromInline
@@ -142,11 +176,11 @@ extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}
         
         switch self {
         case .first(let s1):
-            return s1.{{variable.name}}.map(Meaning.first)
+            return s1.{{variable.name}}
         case .second(let s2):
-            return s2.{{variable.name}}.map(Meaning.second)
+            return s2.{{variable.name}}
         case .third(let s3):
-            return s3.{{variable.name}}.map(Meaning.third)
+            return s3.{{variable.name}}
         }
         
     }
@@ -158,11 +192,11 @@ extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}
         
         switch self {
         case .first(let s1):
-            return s1.{{method.name}}.map(Meaning.first)
+            return s1.{{method.name}}
         case .second(let s2):
-            return s2.{{method.name}}.map(Meaning.second)
+            return s2.{{method.name}}
         case .third(let s3):
-            return s3.{{method.name}}.map(Meaning.third)
+            return s3.{{method.name}}
         }
     }
     {%endfor%}
@@ -171,7 +205,8 @@ extension Either3 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}
 
 
 extension Either4 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}},
-S3 : {{proto.name}}, S4 : {{proto.name}} {
+S3 : {{proto.name}}, S4 : {{proto.name}},
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning {
     
     {% for variable in proto.variables|instance %}
     @usableFromInline
@@ -179,13 +214,13 @@ S3 : {{proto.name}}, S4 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{variable.name}}.map(Meaning.first)
+            return s1.{{variable.name}}
         case .second(let s2):
-            return s2.{{variable.name}}.map(Meaning.second)
+            return s2.{{variable.name}}
         case .third(let s3):
-            return s3.{{variable.name}}.map(Meaning.third)
+            return s3.{{variable.name}}
         case .fourth(let s4):
-            return s4.{{variable.name}}.map(Meaning.fourth)
+            return s4.{{variable.name}}
         }
         
     }
@@ -197,13 +232,13 @@ S3 : {{proto.name}}, S4 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{method.name}}.map(Meaning.first)
+            return s1.{{method.name}}
         case .second(let s2):
-            return s2.{{method.name}}.map(Meaning.second)
+            return s2.{{method.name}}
         case .third(let s3):
-            return s3.{{method.name}}.map(Meaning.third)
+            return s3.{{method.name}}
         case .fourth(let s4):
-            return s4.{{method.name}}.map(Meaning.fourth)
+            return s4.{{method.name}}
         }
     }
     {%endfor%}
@@ -212,7 +247,8 @@ S3 : {{proto.name}}, S4 : {{proto.name}} {
 
 
 extension Either5 : {{proto.name}} where S1 : {{proto.name}}, S2 : {{proto.name}},
-S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}} {
+S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}},
+                                 S1.Meaning == S2.Meaning, S2.Meaning == S3.Meaning, S3.Meaning == S4.Meaning, S4.Meaning == S5.Meaning {
     
     {% for variable in proto.variables|instance %}
     @usableFromInline
@@ -220,15 +256,15 @@ S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{variable.name}}.map(Meaning.first)
+            return s1.{{variable.name}}
         case .second(let s2):
-            return s2.{{variable.name}}.map(Meaning.second)
+            return s2.{{variable.name}}
         case .third(let s3):
-            return s3.{{variable.name}}.map(Meaning.third)
+            return s3.{{variable.name}}
         case .fourth(let s4):
-            return s4.{{variable.name}}.map(Meaning.fourth)
+            return s4.{{variable.name}}
         case .fifth(let s5):
-            return s5.{{variable.name}}.map(Meaning.fifth)
+            return s5.{{variable.name}}
         }
         
     }
@@ -240,15 +276,15 @@ S3 : {{proto.name}}, S4 : {{proto.name}} , S5 : {{proto.name}} {
         
         switch self {
         case .first(let s1):
-            return s1.{{method.name}}.map(Meaning.first)
+            return s1.{{method.name}}
         case .second(let s2):
-            return s2.{{method.name}}.map(Meaning.second)
+            return s2.{{method.name}}
         case .third(let s3):
-            return s3.{{method.name}}.map(Meaning.third)
+            return s3.{{method.name}}
         case .fourth(let s4):
-            return s4.{{method.name}}.map(Meaning.fourth)
+            return s4.{{method.name}}
         case .fifth(let s5):
-            return s5.{{method.name}}.map(Meaning.fifth)
+            return s5.{{method.name}}
         }
     }
     {%endfor%}

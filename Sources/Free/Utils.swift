@@ -8,6 +8,16 @@
 import Foundation
 
 
+public func repeatUntilGood<Action : Symbol>(maxIterations: UInt = .max,
+                                                     action: @escaping @autoclosure () -> Action)
+-> Map<Recursive<Action>, Void> where Action.Meaning == Discriminative<Void, Void> {
+    
+    repeatUntilGood(maxIterations: maxIterations, action: action())
+        .map{$0.get()}
+    
+}
+
+
 public func repeatUntilGood<Action : Symbol, Output>(maxIterations: UInt = .max,
                                                      action: @escaping @autoclosure () -> Action)
 -> Recursive<Action> where Action.Meaning == Discriminative<Output, Void> {
@@ -15,6 +25,17 @@ public func repeatUntilGood<Action : Symbol, Output>(maxIterations: UInt = .max,
     repeatUntilGood(maxIterations: maxIterations,
                     seed: (),
                     action: action)
+    
+}
+
+
+public func repeatUntilGood<Seed, Action : Symbol>(maxIterations: UInt = .max,
+                                                           seed: Seed,
+                                                           action: @escaping (Seed) -> Action)
+-> Map<Recursive<Action>, Seed> where Action.Meaning == Discriminative<Seed, Seed> {
+    
+    repeatUntilGood(maxIterations: maxIterations, seed: seed, action: action)
+        .map{$0.get()}
     
 }
 
